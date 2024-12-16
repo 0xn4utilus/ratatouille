@@ -7,17 +7,17 @@
 #include "Keys.h"
 #include "Music.h"
 
-IMPORT_MAP(splashmap);
-DECLARE_MUSIC(level);
+// IMPORT_MAP(splashmap);
+// DECLARE_MUSIC(level);
 
 extern UINT8 level;
 
 void START() {
-	INIT_BKG(splashmap);
+	// INIT_BKG(splashmap);
 
 	level = 0;
 
-	PlayMusic(start, 1);
+	// PlayMusic(start, 1);
 }
 
 void UPDATE() {
