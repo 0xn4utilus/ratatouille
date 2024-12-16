@@ -1,0 +1,22 @@
+{
+    "files.exclude": {
+        "obj": true,
+        "Debug": true,
+        "DebugColor": true,
+        "Release": true,
+        "ReleaseColor": true,
+        "*.bat": true,
+        "*.log": true,
+        "*.sln": true,
+        "*.vcxproj*": true,
+        "*.db": true,
+        ".gitignore": true,
+        ".vs": true
+    },
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "spritemanager.h": "c",
+        "music.h": "c",
+        "setautobank.h": "c"
+    }
+}
