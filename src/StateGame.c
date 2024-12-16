@@ -19,7 +19,7 @@ void START() {
 	scroll_target = SpriteManagerAdd(SpritePlayer, 50, 50);
 	InitScroll(BANK(map), &map, collision_tiles, 0);
 	
-	// PlayMusic(level,1);
+	PlayMusic(level,1);
 }
 
 void UPDATE() {
