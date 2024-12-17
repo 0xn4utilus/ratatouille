@@ -9,6 +9,10 @@
         "winutils.h": "c",
         "sprite.h": "c",
         "metaspriteinfo.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "sound.h": "c",
+        "keys.h": "c",
+        "zgbmain.h": "c",
+        "zgbmain_init.h": "c"
     }
 }

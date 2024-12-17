@@ -23,6 +23,7 @@ void print_text_pos(const char* text, UINT8 x, UINT8 y) {
 }
 
 void print_text(const char* text) {
+    SHOW_WIN;
     text_org = text;
     PPRINT;
 }

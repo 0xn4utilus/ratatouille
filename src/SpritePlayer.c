@@ -8,27 +8,30 @@
 const UINT8 anim_idle[] = {6,0,0,5,5,5,0};
 const UINT8 anim_walk[] = {6, 0,1,2,3,4,5};
 
+extern UINT8 level;
+
 void START() {
 }
+UINT8 tile_collision;
 
 void UPDATE() {
     UINT8 i;
 	Sprite* spr;
 	if(KEY_PRESSED(J_UP)) {
-		TranslateSprite(THIS, 0, -1<< delta_time);
+		tile_collision = TranslateSprite(THIS, 0, -1<< delta_time);
 		SetSpriteAnim(THIS, anim_walk, 15);
 	} 
 	if(KEY_PRESSED(J_DOWN)) {
-		TranslateSprite(THIS, 0, 1<< delta_time);
+		tile_collision = TranslateSprite(THIS, 0, 1<< delta_time);
 		SetSpriteAnim(THIS, anim_walk, 15);
 	}
 	if(KEY_PRESSED(J_LEFT)) {
-		TranslateSprite(THIS, -1 << delta_time, 0);
+		tile_collision = TranslateSprite(THIS, -1 << delta_time, 0);
         THIS->mirror = V_MIRROR;
 		SetSpriteAnim(THIS, anim_walk, 15);
 	}
 	if(KEY_PRESSED(J_RIGHT)) {
-		TranslateSprite(THIS, 1 << delta_time, 0);
+		tile_collision = TranslateSprite(THIS, 1 << delta_time, 0);
         THIS->mirror = NO_MIRROR;
 		SetSpriteAnim(THIS, anim_walk, 15);
 	}
@@ -37,13 +40,21 @@ void UPDATE() {
 	}
 
     SPRITEMANAGER_ITERATE(i, spr) {
-		if(spr->type == SpriteEnemy2) {
+		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
-				PlayFx(CHANNEL_1, 10, 0x4f, 0xc7, 0xf3, 0x73, 0x86);
-				// SetState(StateGame);
-					print_text_time("yayyay",0,0,15);
+				print_text("yayyay");
 			}
 		}
+	}
+
+	print_text("");
+	Printf("%d",tile_collision);
+	if(tile_collision == 0) {
+		CLEAR;
+	}
+	if(tile_collision == 14){
+		SetState(StateWorld);
+		tile_collision  =0;
 	}
 }
 
