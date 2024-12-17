@@ -7,5 +7,4 @@ clean:
 	$(MAKE) -C src clean
 
 start:
-	$(MAKE) all
-	$(ZGB_PATH)/../env/bgb/bgb.exe Release/rom.gb
+	$(MAKE) all && $(ZGB_PATH)/../env/bgb/bgb.exe Release/rom.gb
