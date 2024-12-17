@@ -14,9 +14,7 @@ void START() {
 }
 UINT8 tile_collision;
 
-void UPDATE() {
-    UINT8 i;
-	Sprite* spr;
+void Movement() {
 	if(KEY_PRESSED(J_UP)) {
 		tile_collision = TranslateSprite(THIS, 0, -1<< delta_time);
 		SetSpriteAnim(THIS, anim_walk, 15);
@@ -38,23 +36,46 @@ void UPDATE() {
 	if(keys == 0) {
 		SetSpriteAnim(THIS, anim_idle, 15);
 	}
+}
+
+void UPDATE() {
+    UINT8 i;
+	Sprite* spr;
+	UINT8 collision_state = 0;
+	Movement();
 
     SPRITEMANAGER_ITERATE(i, spr) {
 		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
-				print_text("yayyay");
+				print_text("Collect sadadadadadadadadadadadadadadadad boy!");
+				collision_state = 1;
+			}
+		}else if (spr->type == SpriteEnemy){
+			if(CheckCollision(THIS,spr)) {
+				print_text("NO BANANA???  DIE!!!     PRESS START");
+				collision_state = 1;
+				while (1){	
+					UPDATE_KEYS();
+					if(KEY_PRESSED(J_START)){
+						break;
+					}
+				}
+				SetState(StateGame);
+				
+				
 			}
 		}
 	}
 
-	print_text("");
-	Printf("%d",tile_collision);
-	if(tile_collision == 0) {
-		CLEAR;
+	if(collision_state == 0){
+		clear_text();
 	}
+
+	
 	if(tile_collision == 14){
-		SetState(StateWorld);
-		tile_collision  =0;
+		if(level == 0)SetState(StateWorld);
+		else SetState(StateGame);
+		tile_collision  = 0;
 	}
 }
 

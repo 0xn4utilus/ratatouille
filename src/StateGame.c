@@ -11,15 +11,20 @@ DECLARE_MUSIC(level);
 IMPORT_MAP(map);
 IMPORT_FONT(font);
 
-UINT8 collision_tiles_world[] = {1, 13, 14, 0};
-UINT8 level;
+UINT8 collision_tiles[] = {1, 13, 14, 0};
+UINT8 level = 0;
 
 void START() {
-	level=0;
-	scroll_target = SpriteManagerAdd(SpritePlayer, 50, 50);
-	InitScroll(BANK(map), &map, collision_tiles_world, 0);
-	INIT(font);
+	
+	if(level == 1) {
+		level=0;
+		scroll_target = SpriteManagerAdd(SpritePlayer, 288, 24);
+	}else{
+		scroll_target = SpriteManagerAdd(SpritePlayer, 50, 50);
+	}
+	InitScroll(BANK(map), &map, collision_tiles, 0);
 
+	INIT_FONT(font, PRINT_WIN);
 
 	// PlayMusic(level,1);
 }

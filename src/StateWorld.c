@@ -16,9 +16,9 @@ extern UINT8 level;
 
 void START() {
 	level = 1 ;
-	scroll_target = SpriteManagerAdd(SpritePlayer, 292, 258);
+	scroll_target = SpriteManagerAdd(SpritePlayer, 288, 258);
 	InitScroll(BANK(map2), &map2, collision_tiles, 0);
-	INIT(font);
+	INIT_FONT(font, PRINT_WIN);
 
 
 }
