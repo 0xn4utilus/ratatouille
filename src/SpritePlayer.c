@@ -3,6 +3,7 @@
 #include "Keys.h"
 #include "SpriteManager.h"
 #include "Sound.h"
+#include "WinUtils.h"
 
 const UINT8 anim_idle[] = {6,0,0,5,5,5,0};
 const UINT8 anim_walk[] = {6, 0,1,2,3,4,5};
@@ -39,7 +40,8 @@ void UPDATE() {
 		if(spr->type == SpriteEnemy2) {
 			if(CheckCollision(THIS, spr)) {
 				PlayFx(CHANNEL_1, 10, 0x4f, 0xc7, 0xf3, 0x73, 0x86);
-				SetState(StateGame);
+				// SetState(StateGame);
+					print_text_time("yayyay",0,0,15);
 			}
 		}
 	}

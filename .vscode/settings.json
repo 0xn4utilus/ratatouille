@@ -3,6 +3,12 @@
         "*.embeddedhtml": "html",
         "spritemanager.h": "c",
         "music.h": "c",
-        "setautobank.h": "c"
+        "setautobank.h": "c",
+        "print.h": "c",
+        "font.h": "c",
+        "winutils.h": "c",
+        "sprite.h": "c",
+        "metaspriteinfo.h": "c",
+        "string.h": "c"
     }
 }
