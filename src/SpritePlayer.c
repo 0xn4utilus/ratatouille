@@ -14,6 +14,15 @@ void START() {
 }
 UINT8 tile_collision;
 
+void wait_for_start_press(){
+	while (1){	
+		UPDATE_KEYS();
+		if(KEY_PRESSED(J_START)){
+			break;
+		}
+	}
+}
+
 void Movement() {
 	if(KEY_PRESSED(J_UP)) {
 		tile_collision = TranslateSprite(THIS, 0, -1<< delta_time);
@@ -47,19 +56,14 @@ void UPDATE() {
     SPRITEMANAGER_ITERATE(i, spr) {
 		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
-				print_text("Collect sadadadadadadadadadadadadadadadad boy!");
+				print_text("GIMME PEACH THEN MAYBE I TEACH!!!");
 				collision_state = 1;
 			}
 		}else if (spr->type == SpriteEnemy){
 			if(CheckCollision(THIS,spr)) {
 				print_text("NO BANANA???  DIE!!!     PRESS START");
 				collision_state = 1;
-				while (1){	
-					UPDATE_KEYS();
-					if(KEY_PRESSED(J_START)){
-						break;
-					}
-				}
+				wait_for_start_press();
 				SetState(StateGame);
 				
 				
