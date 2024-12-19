@@ -13,6 +13,9 @@
         "sound.h": "c",
         "keys.h": "c",
         "zgbmain.h": "c",
-        "zgbmain_init.h": "c"
+        "zgbmain_init.h": "c",
+        "vector.h": "c",
+        "stack.h": "c",
+        "math.h": "c"
     }
 }

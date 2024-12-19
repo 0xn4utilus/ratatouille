@@ -10,9 +10,37 @@ const UINT8 anim_walk[] = {6, 0,1,2,3,4,5};
 
 extern UINT8 level;
 
+typedef struct {
+	UINT8 AppleCount;
+	UINT8 BananaCount;
+	UINT8 BasilCount;
+	UINT8 BroccoliCount;
+	UINT8 CheeseCount;
+	UINT8 ChilliCount;
+	UINT8 CloveCount;
+	UINT8 MushroomCount;
+	UINT8 PeachCount;
+	UINT8 PotatoCount;
+} CUSTOM_DATA;
+
+
+
 void START() {
+	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
+	inventory->AppleCount = 0;
+	inventory->BananaCount = 0;
+	inventory->BasilCount = 0;
+	inventory->BroccoliCount = 0;
+	inventory->CheeseCount = 0;
+	inventory->ChilliCount = 0;
+	inventory->CloveCount = 0;
+	inventory->MushroomCount = 0;
+	inventory->PeachCount = 0;
+	inventory->PotatoCount = 0;
 }
+
 UINT8 tile_collision;
+UINT8 instructed = 0;
 
 void wait_for_start_press(){
 	while (1){	
@@ -47,6 +75,88 @@ void Movement() {
 	}
 }
 
+void wait_few_ticks(){
+	UINT8 i;
+	for(i = 0; i < (UINT8)40u; i++){
+		wait_vbl_done();
+	}
+}
+
+void UpdateInventory() {
+	UINT8 i;
+	Sprite* spr;
+	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
+	SPRITEMANAGER_ITERATE(i, spr) {
+	if (CheckCollision(THIS, spr)) {
+		switch (spr->type) {
+			case Apple:
+				print_text("APPLE!!!");
+				inventory->AppleCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Banana:
+				print_text("BANANA!!!");
+				inventory->BananaCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Basil:
+				print_text("BASIL!!!");
+				inventory->BasilCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Broccoli:
+				print_text("BROCCOLI!!!");
+				inventory->BroccoliCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Cheese:
+				print_text("CHEESE!!!");
+				inventory->CheeseCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Chilli:
+				print_text("CHILLI!!!");
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				inventory->ChilliCount++;
+				break;
+			case Clove:
+				print_text("CLOVE!!!");
+				inventory->CloveCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Mushroom:
+				print_text("MUSHROOM!!!");
+				inventory->MushroomCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Peach:
+				print_text("PEACH!!!");
+				inventory->PeachCount++;
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				break;
+			case Potato:
+				print_text("POTATO!!!");
+				SpriteManagerRemoveSprite(spr);
+				wait_few_ticks();
+				inventory->PotatoCount++;
+				break;
+			default:
+				break;
+		}
+	}
+	}
+}
+
+
 void UPDATE() {
     UINT8 i;
 	Sprite* spr;
@@ -70,6 +180,7 @@ void UPDATE() {
 			}
 		}
 	}
+	UpdateInventory();
 
 	if(collision_state == 0){
 		clear_text();

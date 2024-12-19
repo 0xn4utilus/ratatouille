@@ -14,7 +14,7 @@ _SPRITE_DMG(SpriteEnemy, enemy)\
 _SPRITE_DMG(SpriteEnemy2, enemy2)\
 _SPRITE_DMG(Apple, apple)\
 _SPRITE_DMG(Banana, banana)\
-_SPRITE_DMG(Basil, banana)\
+_SPRITE_DMG(Basil, basil)\
 _SPRITE_DMG(Broccoli, broccoli)\
 _SPRITE_DMG(Cheese, cheese)\
 _SPRITE_DMG(Chilli, chilli)\
