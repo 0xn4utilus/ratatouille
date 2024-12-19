@@ -32,4 +32,17 @@ void clear_text(){
         Printf("                    ");
     }
     HIDE_WIN;
+    WX_REG = 20;
+    WY_REG= 144;
 }
+
+void clear_lines(UINT8 lines){
+    for(UINT8 i = 0; i<lines; i++){
+        PRINT_POS(0,i);
+        Printf("                    ");
+    }
+    HIDE_WIN;
+    WX_REG = 20;
+    WY_REG= 144;
+}
+

@@ -77,7 +77,7 @@ void Movement() {
 
 void wait_few_ticks(){
 	UINT8 i;
-	for(i = 0; i < (UINT8)40u; i++){
+	for(i = 0; i < (UINT8)50u; i++){
 		wait_vbl_done();
 	}
 }
@@ -156,17 +156,76 @@ void UpdateInventory() {
 	}
 }
 
+void print_inventory(){
+    CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
+    WX_REG = 7; 
+    WY_REG = 144 - (12<<3); 
+	SHOW_WIN;
+    PRINT_POS(0, 0); 
+    Printf("     INVENTORY");
+    PRINT_POS(0, 1); 
+    Printf("--------------------");
+    PRINT_POS(4,2);
+    Printf("Apple     %d", inventory->AppleCount);
+    PRINT_POS(4,3);
+	Printf("Banana    %d", inventory->BananaCount);
+	PRINT_POS(4,4);
+	Printf("Basil     %d", inventory->BasilCount);
+	PRINT_POS(4,5);
+	Printf("Broccoli  %d", inventory->BroccoliCount);
+	PRINT_POS(4,6);
+	Printf("Cheese    %d", inventory->CheeseCount);
+	PRINT_POS(4,7);
+	Printf("Chilli    %d", inventory->ChilliCount);
+	PRINT_POS(4,8);
+	Printf("Clove     %d", inventory->CloveCount);
+	PRINT_POS(4,9);
+	Printf("Mushroom  %d", inventory->MushroomCount);
+	PRINT_POS(4,10);
+	Printf("Peach     %d", inventory->PeachCount);
+	PRINT_POS(4,11);
+	Printf("Potato    %d", inventory->PotatoCount);
+}
+
+
+void check_ingridients(CUSTOM_DATA* inventory ){
+	char flag[] = {120, 33, 56, 85, 25, 122, 27, 62, 78, 117, 37, 32, 52, 28, 95, 104, 66, 57, 88};
+
+	char  items[] = {inventory->AppleCount, inventory->BananaCount, inventory->BasilCount, inventory->BroccoliCount, inventory->CheeseCount, inventory->ChilliCount, inventory->CloveCount, inventory->MushroomCount, inventory->PeachCount, inventory->PotatoCount};
+	if(inventory->AppleCount == 8 && inventory->BananaCount == 16 && inventory->BasilCount == 66 && inventory->BroccoliCount == 47 && inventory->CheeseCount == 45 && inventory->ChilliCount  == 9 && inventory->CloveCount == 54 && inventory->MushroomCount == 10 && inventory->PeachCount == 60 && inventory->PotatoCount == 70){
+		char result[sizeof(flag)+1];
+		for (UINT8 i = 0; i < sizeof(flag); i++) {
+			result[i] = flag[i] ^ items[i % sizeof(items)];
+		}
+		result[sizeof(flag)] = '\0';
+
+		print_text(result);
+	}
+}
 
 void UPDATE() {
     UINT8 i;
 	Sprite* spr;
 	UINT8 collision_state = 0;
-	Movement();
+	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
 
+	Movement();
+	
+	if(KEY_PRESSED(J_SELECT)){
+		print_inventory();
+		wait_few_ticks();
+		clear_lines(11);	
+	}
+	
     SPRITEMANAGER_ITERATE(i, spr) {
 		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
-				print_text("GIMME PEACH THEN MAYBE I TEACH!!!");
+				if(inventory->PeachCount > 0) {
+					print_text("A good dish is made with right ingredients in right amount!                     PRESS SELECT to see your inventory");
+					check_ingridients(inventory);
+				} else {
+					print_text("BRING PEACH THEN MAYBE I CAN TEACH!!!");
+				}
 				collision_state = 1;
 			}
 		}else if (spr->type == SpriteEnemy){
@@ -175,7 +234,6 @@ void UPDATE() {
 				collision_state = 1;
 				wait_for_start_press();
 				SetState(StateGame);
-				
 				
 			}
 		}

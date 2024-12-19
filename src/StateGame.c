@@ -26,7 +26,7 @@ void START() {
 
 	INIT_FONT(font, PRINT_WIN);
 
-	// PlayMusic(level,1);
+	PlayMusic(level,1);
 }
 
 void UPDATE() {

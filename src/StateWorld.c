@@ -20,7 +20,7 @@ void START() {
 	InitScroll(BANK(map2), &map2, collision_tiles, 0);
 	INIT_FONT(font, PRINT_WIN);
 
-
+	PlayMusic(level,1);
 }
 
 void UPDATE() {
