@@ -10,6 +10,7 @@ const UINT8 anim_idle[] = {6,0,0,5,5,5,0};
 const UINT8 anim_walk[] = {6, 0,1,2,3,4,5};
 
 extern UINT8 level;
+extern UINT8 initialized_inventory;
 
 typedef struct {
 	UINT8 AppleCount;
@@ -17,28 +18,26 @@ typedef struct {
 	UINT8 BasilCount;
 	UINT8 BroccoliCount;
 	UINT8 CheeseCount;
-	UINT8 ChilliCount;
-	UINT8 CloveCount;
 	UINT8 MushroomCount;
 	UINT8 PeachCount;
 	UINT8 PotatoCount;
 } CUSTOM_DATA;
 
 
-
 void START() {
 	load_dialogues();
 	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
-	inventory->AppleCount = 0;
-	inventory->BananaCount = 0;
-	inventory->BasilCount = 0;
-	inventory->BroccoliCount = 0;
-	inventory->CheeseCount = 0;
-	inventory->ChilliCount = 0;
-	inventory->CloveCount = 0;
-	inventory->MushroomCount = 0;
-	inventory->PeachCount = 0;
-	inventory->PotatoCount = 0;
+	if(initialized_inventory == 0){
+		inventory->AppleCount = 0;
+		inventory->BananaCount = 0;
+		inventory->BasilCount = 0;
+		inventory->BroccoliCount = 0;
+		inventory->CheeseCount = 0;
+		inventory->MushroomCount = 0;
+		inventory->PeachCount = 0;
+		inventory->PotatoCount = 0;
+		initialized_inventory =1;
+	}
 }
 
 UINT8 tile_collision;
@@ -121,18 +120,6 @@ void UpdateInventory() {
 				SpriteManagerRemoveSprite(spr);
 				wait_few_ticks();
 				break;
-			case Chilli:
-				print_text("CHILLI!!!");
-				SpriteManagerRemoveSprite(spr);
-				wait_few_ticks();
-				inventory->ChilliCount++;
-				break;
-			case Clove:
-				print_text("CLOVE!!!");
-				inventory->CloveCount++;
-				SpriteManagerRemoveSprite(spr);
-				wait_few_ticks();
-				break;
 			case Mushroom:
 				print_text("MUSHROOM!!!");
 				inventory->MushroomCount++;
@@ -178,14 +165,10 @@ void print_inventory(){
 	PRINT_POS(4,6);
 	Printf("Cheese    %d", inventory->CheeseCount);
 	PRINT_POS(4,7);
-	Printf("Chilli    %d", inventory->ChilliCount);
-	PRINT_POS(4,8);
-	Printf("Clove     %d", inventory->CloveCount);
-	PRINT_POS(4,9);
 	Printf("Mushroom  %d", inventory->MushroomCount);
-	PRINT_POS(4,10);
+	PRINT_POS(4,8);
 	Printf("Peach     %d", inventory->PeachCount);
-	PRINT_POS(4,11);
+	PRINT_POS(4,9);
 	Printf("Potato    %d", inventory->PotatoCount);
 }
 
@@ -194,8 +177,8 @@ void print_inventory(){
 void check_ingridients(CUSTOM_DATA* inventory ){
 	char flag[] = {120, 33, 56, 85, 25, 122, 27, 62, 78, 117, 37, 32, 52, 28, 95, 104, 66, 57, 88};
 
-	char  items[] = {inventory->AppleCount, inventory->BananaCount, inventory->BasilCount, inventory->BroccoliCount, inventory->CheeseCount, inventory->ChilliCount, inventory->CloveCount, inventory->MushroomCount, inventory->PeachCount, inventory->PotatoCount};
-	if(inventory->AppleCount == 8 && inventory->BananaCount == 16 && inventory->BasilCount == 66 && inventory->BroccoliCount == 47 && inventory->CheeseCount == 45 && inventory->ChilliCount  == 9 && inventory->CloveCount == 54 && inventory->MushroomCount == 10 && inventory->PeachCount == 60 && inventory->PotatoCount == 70){
+	char  items[] = {inventory->AppleCount, inventory->BananaCount, inventory->BasilCount, inventory->BroccoliCount, inventory->CheeseCount, inventory->MushroomCount, inventory->PeachCount, inventory->PotatoCount};
+	if(inventory->AppleCount == 8 && inventory->BananaCount == 16 && inventory->BasilCount == 66 && inventory->BroccoliCount == 47 && inventory->CheeseCount == 45 &&  inventory->MushroomCount == 10 && inventory->PeachCount == 60 && inventory->PotatoCount == 70){
 		char result[sizeof(flag)+1];
 		for (UINT8 i = 0; i < sizeof(flag); i++) {
 			result[i] = flag[i] ^ items[i % sizeof(items)];
@@ -254,6 +237,7 @@ void UPDATE() {
 					inventory->BananaCount--;
 				} else {
 					print_text("NO BANANA???  DIE!!!     PRESS START");
+					initialized_inventory = 0;
 					wait_for_start_press();
 					SetState(StateGame);
 				}
@@ -268,6 +252,8 @@ void UPDATE() {
 					inventory->AppleCount--;
 				} else {
 					print_text("NO APPLE???  DIE!!!     PRESS START");
+					level = 0;
+					initialized_inventory = 0;
 					wait_for_start_press();
 					SetState(StateGame);
 				}
@@ -288,6 +274,7 @@ void UPDATE() {
 	}
 	if(tile_collision == 13){
 		print_text("YOU DROWNED!!!      PRESS START");
+		initialized_inventory = 0;
 		wait_for_start_press();
 		SetState(StateGame);
 		tile_collision  = 0;

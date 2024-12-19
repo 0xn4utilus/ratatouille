@@ -8,7 +8,7 @@
 
 DECLARE_MUSIC(level);
 
-IMPORT_MAP(map2);
+IMPORT_MAP(map4);
 IMPORT_FONT(font);
 
 extern UINT8 collision_tiles[];
@@ -16,10 +16,8 @@ extern UINT8 level;
 
 void START() {
 	level = 1 ;
-	scroll_target = SpriteManagerAdd(SpritePlayer, 288, 258);
-	InitScroll(BANK(map2), &map2, collision_tiles, 0);
-	INIT_FONT(font, PRINT_WIN);
-
+	scroll_target = SpriteManagerAdd(SpritePlayer, 24, 64);
+	InitScroll(BANK(map4), &map4, collision_tiles, 0);
 	PlayMusic(level,1);
 }
 

@@ -14,7 +14,6 @@ extern UINT8 level;
 
 void START() {
 	INIT_BKG(splashmap);
-
 	level = 0;
 
 	// PlayMusic(start, 1);

@@ -13,6 +13,7 @@ IMPORT_FONT(font);
 
 UINT8 collision_tiles[] = {1, 13, 14, 0};
 UINT8 level = 0;
+UINT8 initialized_inventory = 0;
 
 void START() {
 	
@@ -22,8 +23,8 @@ void START() {
 	}else{
 		scroll_target = SpriteManagerAdd(SpritePlayer, 50, 50);
 	}
-	InitScroll(BANK(map), &map, collision_tiles, 0);
 
+	InitScroll(BANK(map), &map, collision_tiles, 0);
 	INIT_FONT(font, PRINT_WIN);
 
 	PlayMusic(level,1);

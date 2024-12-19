@@ -19,18 +19,27 @@ void slice(const char* str, char* result, UINT8 start, UINT8 end) {
 }
 
 void load_dialogues(){
-    for(UINT8 i = 0 ; i < sizeof(dialogues_0); i++){
-        dialogues_0[i] = dialogues_0[i] ^ 35;
+    if(dialogues_0[sizeof(dialogues_0)-1] != 0){
+        for(UINT8 i = 0 ; i < sizeof(dialogues_0); i++){
+            dialogues_0[i] = dialogues_0[i] ^ 35;
+        }
     }
-    for(UINT8 i = 0 ; i < sizeof(dialogues_1); i++){
-        dialogues_1[i] = dialogues_1[i] ^ 36;
+    if (dialogues_1[sizeof(dialogues_1)-1] != 0){
+        for(UINT8 i = 0 ; i < sizeof(dialogues_1); i++){
+            dialogues_1[i] = dialogues_1[i] ^ 36;
+        }
     }
-    for(UINT8 i = 0 ; i < sizeof(dialogues_2); i++){
-        dialogues_2[i] = dialogues_2[i] ^ 37;
+    if (dialogues_2[sizeof(dialogues_2)-1] != 0){
+        for(UINT8 i = 0 ; i < sizeof(dialogues_2); i++){
+            dialogues_2[i] = dialogues_2[i] ^ 37;
+        }
     }
-    for(UINT8 i = 0 ; i < sizeof(dialogues_3); i++){
-        dialogues_3[i] = dialogues_3[i] ^ 38;
+    if (dialogues_3[sizeof(dialogues_3)-1] != 0){
+        for(UINT8 i = 0 ; i < sizeof(dialogues_3); i++){
+            dialogues_3[i] = dialogues_3[i] ^ 38;
+        }
     }
+
 }
 
 
