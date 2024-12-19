@@ -36,7 +36,7 @@ void START() {
 		inventory->MushroomCount = 0;
 		inventory->PeachCount = 0;
 		inventory->PotatoCount = 0;
-		initialized_inventory =1;
+		initialized_inventory = 1;
 	}
 }
 
@@ -148,7 +148,7 @@ void UpdateInventory() {
 void print_inventory(){
     CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
     WX_REG = 7; 
-    WY_REG = 144 - (12<<3); 
+    WY_REG = 144 - (10<<3); 
 	SHOW_WIN;
     PRINT_POS(0, 0); 
     Printf("     INVENTORY");
@@ -175,17 +175,20 @@ void print_inventory(){
 
 
 void check_ingridients(CUSTOM_DATA* inventory ){
-	char flag[] = {120, 33, 56, 85, 25, 122, 27, 62, 78, 117, 37, 32, 52, 28, 95, 104, 66, 57, 88};
+	char flag[] = {120,33,56,85,25,121,17,114,122,35,111,31,91,57,78,52,105,100,113,75};
 
 	char  items[] = {inventory->AppleCount, inventory->BananaCount, inventory->BasilCount, inventory->BroccoliCount, inventory->CheeseCount, inventory->MushroomCount, inventory->PeachCount, inventory->PotatoCount};
 	if(inventory->AppleCount == 8 && inventory->BananaCount == 16 && inventory->BasilCount == 66 && inventory->BroccoliCount == 47 && inventory->CheeseCount == 45 &&  inventory->MushroomCount == 10 && inventory->PeachCount == 60 && inventory->PotatoCount == 70){
+	
 		char result[sizeof(flag)+1];
 		for (UINT8 i = 0; i < sizeof(flag); i++) {
 			result[i] = flag[i] ^ items[i % sizeof(items)];
 		}
 		result[sizeof(flag)] = '\0';
 
+		clear_text();
 		print_text(result);
+		SetState(StateGame);
 		wait_for_start_press();
 	}
 }
@@ -207,6 +210,7 @@ void UPDATE() {
     SPRITEMANAGER_ITERATE(i, spr) {
 		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
+				
 				if (inventory->MushroomCount > 0){
 					print_text(dialogues_3);
 					wait_for_start_press();
@@ -223,7 +227,6 @@ void UPDATE() {
 				} else {
 					print_text(dialogues_0);
 				}
-
 				check_ingridients(inventory);
 				collision_state = 1;
 			}

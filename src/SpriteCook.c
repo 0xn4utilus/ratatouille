@@ -11,7 +11,6 @@ void START() {
 
 void UPDATE() {
     SetSpriteAnim(THIS,anim_idle_cook,15);
-
 }
 
 void DESTROY() {
