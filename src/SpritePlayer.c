@@ -4,6 +4,7 @@
 #include "SpriteManager.h"
 #include "Sound.h"
 #include "WinUtils.h"
+#include "Math.h"
 
 const UINT8 anim_idle[] = {6,0,0,5,5,5,0};
 const UINT8 anim_walk[] = {6, 0,1,2,3,4,5};
@@ -35,7 +36,7 @@ void START() {
 	inventory->ChilliCount = 0;
 	inventory->CloveCount = 0;
 	inventory->MushroomCount = 0;
-	inventory->PeachCount = 0;
+	inventory->PeachCount = 1;
 	inventory->PotatoCount = 0;
 }
 
@@ -188,6 +189,7 @@ void print_inventory(){
 }
 
 
+
 void check_ingridients(CUSTOM_DATA* inventory ){
 	char flag[] = {120, 33, 56, 85, 25, 122, 27, 62, 78, 117, 37, 32, 52, 28, 95, 104, 66, 57, 88};
 
@@ -200,6 +202,9 @@ void check_ingridients(CUSTOM_DATA* inventory ){
 		result[sizeof(flag)] = '\0';
 
 		print_text(result);
+		wait_few_ticks();
+		wait_few_ticks();
+		wait_few_ticks();
 	}
 }
 
@@ -221,8 +226,8 @@ void UPDATE() {
 		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
 				if(inventory->PeachCount > 0) {
-					print_text("A good dish is made with right ingredients in right amount!                     PRESS SELECT to see your inventory");
 					check_ingridients(inventory);
+					print_text("A good dish is made with right ingredients in right amount!                     PRESS SELECT to see your inventory");
 				} else {
 					print_text("BRING PEACH THEN MAYBE I CAN TEACH!!!");
 				}
@@ -230,11 +235,33 @@ void UPDATE() {
 			}
 		}else if (spr->type == SpriteEnemy){
 			if(CheckCollision(THIS,spr)) {
-				print_text("NO BANANA???  DIE!!!     PRESS START");
 				collision_state = 1;
-				wait_for_start_press();
-				SetState(StateGame);
-				
+				if(inventory->BananaCount > 0) {
+					print_text("BANANA!!!  YOU ARE MY FRIEND NOW!!!             PRESS START");
+					wait_few_ticks();
+					wait_few_ticks();
+					SpriteManagerRemoveSprite(spr);
+					inventory->BananaCount--;
+				} else {
+					print_text("NO BANANA???  DIE!!!     PRESS START");
+					wait_for_start_press();
+					SetState(StateGame);
+				}
+			}
+		}else if (spr->type == SpriteEnemy2){
+			if(CheckCollision(THIS,spr)) {
+				collision_state = 1;
+				if(inventory->AppleCount > 0) {
+					print_text("APPLE!!!  YOU ARE MY FRIEND NOW!!!              PRESS START");
+					wait_few_ticks();
+					wait_few_ticks();
+					SpriteManagerRemoveSprite(spr);
+					inventory->AppleCount--;
+				} else {
+					print_text("NO APPLE???  DIE!!!     PRESS START");
+					wait_for_start_press();
+					SetState(StateGame);
+				}
 			}
 		}
 	}
@@ -248,6 +275,12 @@ void UPDATE() {
 	if(tile_collision == 14){
 		if(level == 0)SetState(StateWorld);
 		else SetState(StateGame);
+		tile_collision  = 0;
+	}
+	if(tile_collision == 13){
+		print_text("YOU DROWNED!!!      PRESS START");
+		wait_for_start_press();
+		SetState(StateGame);
 		tile_collision  = 0;
 	}
 }
