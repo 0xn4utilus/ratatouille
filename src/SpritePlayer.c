@@ -27,6 +27,7 @@ typedef struct {
 
 
 void START() {
+	load_dialogues();
 	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
 	inventory->AppleCount = 0;
 	inventory->BananaCount = 0;
@@ -36,7 +37,7 @@ void START() {
 	inventory->ChilliCount = 0;
 	inventory->CloveCount = 0;
 	inventory->MushroomCount = 0;
-	inventory->PeachCount = 1;
+	inventory->PeachCount = 0;
 	inventory->PotatoCount = 0;
 }
 
@@ -202,9 +203,7 @@ void check_ingridients(CUSTOM_DATA* inventory ){
 		result[sizeof(flag)] = '\0';
 
 		print_text(result);
-		wait_few_ticks();
-		wait_few_ticks();
-		wait_few_ticks();
+		wait_for_start_press();
 	}
 }
 
@@ -225,21 +224,32 @@ void UPDATE() {
     SPRITEMANAGER_ITERATE(i, spr) {
 		if(spr->type == SpriteCook) {
 			if(CheckCollision(THIS, spr)) {
-				if(inventory->PeachCount > 0) {
-					check_ingridients(inventory);
-					print_text("A good dish is made with right ingredients in right amount!                     PRESS SELECT to see your inventory");
+				if (inventory->MushroomCount > 0){
+					print_text(dialogues_3);
+					wait_for_start_press();
+					inventory->MushroomCount--;
+				}else if(inventory->PeachCount > 0) {
+					if(inventory->AppleCount > 0){
+						print_text(dialogues_2);
+						wait_for_start_press();
+						inventory->PeachCount--;
+						inventory->AppleCount--;
+					}else{
+					print_text(dialogues_1);
+					}
 				} else {
-					print_text("BRING PEACH THEN MAYBE I CAN TEACH!!!");
+					print_text(dialogues_0);
 				}
+
+				check_ingridients(inventory);
 				collision_state = 1;
 			}
 		}else if (spr->type == SpriteEnemy){
 			if(CheckCollision(THIS,spr)) {
 				collision_state = 1;
 				if(inventory->BananaCount > 0) {
-					print_text("BANANA!!!  YOU ARE MY FRIEND NOW!!!             PRESS START");
-					wait_few_ticks();
-					wait_few_ticks();
+					print_text("BANANA-BOY!!!  YOU ARE MY FRIEND NOW!!!             PRESS START");
+					wait_for_start_press();
 					SpriteManagerRemoveSprite(spr);
 					inventory->BananaCount--;
 				} else {
@@ -252,9 +262,8 @@ void UPDATE() {
 			if(CheckCollision(THIS,spr)) {
 				collision_state = 1;
 				if(inventory->AppleCount > 0) {
-					print_text("APPLE!!!  YOU ARE MY FRIEND NOW!!!              PRESS START");
-					wait_few_ticks();
-					wait_few_ticks();
+					print_text("APPLE-BOY!!!  YOU ARE MY FRIEND NOW!!!              PRESS START");
+					wait_for_start_press();
 					SpriteManagerRemoveSprite(spr);
 					inventory->AppleCount--;
 				} else {
