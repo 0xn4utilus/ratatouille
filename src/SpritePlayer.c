@@ -29,7 +29,7 @@ void START() {
 	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
 	if(initialized_inventory == 0){
 		inventory->AppleCount = 0;
-		inventory->BananaCount = 0;
+		inventory->BananaCount = 1;
 		inventory->BasilCount = 0;
 		inventory->BroccoliCount = 0;
 		inventory->CheeseCount = 0;
@@ -234,12 +234,12 @@ void UPDATE() {
 			if(CheckCollision(THIS,spr)) {
 				collision_state = 1;
 				if(inventory->BananaCount > 0) {
-					print_text("BANANA-BOY!!!  YOU ARE MY FRIEND NOW!!!             PRESS START");
-					wait_for_start_press();
+					print_text("BANANA-BOY! YOU ARE MY FRIEND NOW!");
+					wait_few_ticks();
 					SpriteManagerRemoveSprite(spr);
 					inventory->BananaCount--;
 				} else {
-					print_text("NO BANANA???  DIE!!!     PRESS START");
+					print_text("NO BANANA???  DIE!!!     PRESS START\0");
 					initialized_inventory = 0;
 					wait_for_start_press();
 					SetState(StateGame);
@@ -249,12 +249,13 @@ void UPDATE() {
 			if(CheckCollision(THIS,spr)) {
 				collision_state = 1;
 				if(inventory->AppleCount > 0) {
-					print_text("APPLE-BOY!!!  YOU ARE MY FRIEND NOW!!!              PRESS START");
+					clear_text();
+					print_text("APPLE-BOY! YOU ARE MY FRIEND NOW! PRESS START!");
 					wait_for_start_press();
 					SpriteManagerRemoveSprite(spr);
 					inventory->AppleCount--;
 				} else {
-					print_text("NO APPLE???  DIE!!!     PRESS START");
+					print_text("NO APPLE???  DIE!!!     PRESS START\0");
 					level = 0;
 					initialized_inventory = 0;
 					wait_for_start_press();
@@ -269,7 +270,6 @@ void UPDATE() {
 		clear_text();
 	}
 
-	
 	if(tile_collision == 14){
 		if(level == 0)SetState(StateWorld);
 		else SetState(StateGame);

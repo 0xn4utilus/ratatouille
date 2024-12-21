@@ -65,13 +65,7 @@ void print_text(char* text) {
 
 
 void clear_text(){
-    for(UINT8 i = 0; i<nlines; i++){
-        PRINT_POS(0,i);
-        Printf("                    ");
-    }
-    HIDE_WIN;
-    WX_REG = 20;
-    WY_REG= 144;
+    clear_lines(nlines+1);
 }
 
 void clear_lines(UINT8 lines){
