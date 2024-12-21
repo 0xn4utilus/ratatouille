@@ -29,7 +29,7 @@ void START() {
 	CUSTOM_DATA* inventory = (CUSTOM_DATA*)THIS->custom_data;
 	if(initialized_inventory == 0){
 		inventory->AppleCount = 0;
-		inventory->BananaCount = 1;
+		inventory->BananaCount = 0;
 		inventory->BasilCount = 0;
 		inventory->BroccoliCount = 0;
 		inventory->CheeseCount = 0;
